@@ -18,7 +18,7 @@ private:
     static void reportError(int line, const std::string& place, const std::string& message);
 
 private:
-    static bool errorEncountered;
+    static bool m_errorEncountered;
 };
 
 

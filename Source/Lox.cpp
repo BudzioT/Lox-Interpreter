@@ -8,7 +8,7 @@
 
 
 // Set errors flag to false at the start
-bool Lox::errorEncountered = false;
+bool Lox::m_errorEncountered = false;
 
 // Create lox interpreter
 Lox::Lox(int argc, char *args[]) {
@@ -40,7 +40,7 @@ void Lox::runFile(const std::string& path) {
     run(result);
 
     // Exit with certain error code on an error
-    if (errorEncountered)
+    if (m_errorEncountered)
         exit(65);
 }
 
@@ -59,7 +59,7 @@ void Lox::runPrompt() {
             break;
         run(argument);
 
-        errorEncountered = false;
+        m_errorEncountered = false;
     }
 }
 
@@ -84,6 +84,6 @@ void Lox::error(int line, const std::string &message) {
 // Report error to the user
 void Lox::reportError(int line, const std::string &place, const std::string &message) {
     printf("[line %d] Error%s: %s\n", line, place.c_str(), message.c_str());
-    errorEncountered = true;
+    m_errorEncountered = true;
 }
 

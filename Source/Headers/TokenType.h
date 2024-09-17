@@ -1,3 +1,7 @@
+#ifndef TOKEN_TYPE_H
+#define TOKEN_TYPE_H
+
+// ALl token types
 enum TokenType {
     // Single-character tokens
     LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
@@ -14,3 +18,5 @@ enum TokenType {
     CLASS, AND, OR, IF, ELSE, FUNC, SUPER, THIS, FOR, WHILE, VAR, TRUE, FALSE,
     PRINT, RETURN, NULL, EOF
 };
+
+#endif
