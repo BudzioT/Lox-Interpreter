@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Lox Source/main.cpp
         Source/Lox.cpp
-        Source/Headers/Lox.h)
+        Source/Headers/Lox.h
+        Source/TokenType.cpp)

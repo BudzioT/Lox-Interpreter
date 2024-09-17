@@ -7,6 +7,9 @@
 #include <sstream>
 
 
+// Set errors flag to false at the start
+bool Lox::errorEncountered = false;
+
 // Create lox interpreter
 Lox::Lox(int argc, char *args[]) {
     // If user gave two arguments, remind him proper usage of program
@@ -35,22 +38,52 @@ void Lox::runFile(const std::string& path) {
 
     // Run the given code
     run(result);
+
+    // Exit with certain error code on an error
+    if (errorEncountered)
+        exit(65);
 }
 
 // Run prompts that the user gives
 void Lox::runPrompt() {
+    // User interaction loop
     while (true) {
         printf("> ");
 
+        // Get argument from the user
         std::string argument;
         std::getline(std::cin, argument);
+
+        // If it's empty, end the interaction. Otherwise, run the argument
         if (argument.empty())
             break;
         run(argument);
+
+        errorEncountered = false;
     }
 }
 
+// Run the given argument line
 void Lox::run(const std::string& source) {
-    std::cout << source;
+    // Create scanner from the source line
+    Scanner scanner(source);
+    // Get tokens from it
+    std::vector<Token> tokens = scanner.scanTokens();
+
+    // Go through each token
+    for (const Token& token : tokens) {
+        std::cout << token << std::endl;
+    }
+}
+
+// Handle errors
+void Lox::error(int line, const std::string &message) {
+    reportError(line, "", message);
+}
+
+// Report error to the user
+void Lox::reportError(int line, const std::string &place, const std::string &message) {
+    printf("[line %d] Error%s: %s\n", line, place.c_str(), message.c_str());
+    errorEncountered = true;
 }
 
