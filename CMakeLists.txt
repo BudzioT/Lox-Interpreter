@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.29)
+project(Lox)
+
+set(CMAKE_CXX_STANDARD 20)
+
+add_executable(Lox Source/main.cpp
+        Source/Lox.cpp
+        Source/Headers/Lox.h)
