@@ -7,8 +7,8 @@ Token::Token(TokenType type, const std::string &lexeme,
 { }
 
 // Create string from the token
-std::string Token::toString() {
-    const std::string result = std::to_string(m_type) + ' ' + m_lexeme + ' ';
+std::string Token::toString() const {
+    std::string result = std::to_string(m_type) + ' ' + m_lexeme + ' ';
     // String type
     if (std::holds_alternative<std::string>(m_literal))
         return result + std::get<std::string>(m_literal);
@@ -24,4 +24,10 @@ std::string Token::toString() {
     // Float
     if (std::holds_alternative<float>(m_literal))
         return result + std::to_string(std::get<float>(m_literal));
+    // Long
+    if (std::holds_alternative<long>(m_literal))
+        return result + std::to_string(std::get<long>(m_literal));
+
+    // Otherwise return just result
+    return result;
 }

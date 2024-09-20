@@ -8,4 +8,6 @@ add_executable(Lox Source/main.cpp
         Source/Headers/Lox.h
         Source/Headers/TokenType.h
         Source/Token.cpp
-        Source/Headers/Token.h)
+        Source/Headers/Token.h
+        Scanner.cpp
+        Scanner.h)
