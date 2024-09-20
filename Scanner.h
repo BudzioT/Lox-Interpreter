@@ -15,6 +15,14 @@ public:
     std::vector<Token> scanTokens();
 
 private:
+    [[nodiscard]] bool sourceEnd() const;
+    void scanToken();
+    char advanceChar();
+
+    void addToken(TokenType token);
+    void addToken(TokenType token, const literalType& literal);
+
+private:
     std::string m_source;
     std::vector<Token> m_tokens;
     int m_start = 0;
