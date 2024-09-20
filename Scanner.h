@@ -17,10 +17,13 @@ public:
 private:
     [[nodiscard]] bool sourceEnd() const;
     void scanToken();
-    char advanceChar();
 
     void addToken(TokenType token);
     void addToken(TokenType token, const literalType& literal);
+
+    char advanceChar();
+    char peekChar() const;
+    bool match(char target);
 
 private:
     std::string m_source;
