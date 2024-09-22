@@ -86,6 +86,15 @@ void Scanner::scanToken() {
                 addToken(SLASH);
             return;
 
+        // Ignore whitespaces
+        case ' ':
+        case '\r':
+        case '\t':
+            break;
+        case '\n':  // Go to the next line
+            ++m_line;
+            break;
+
         // If character isn't recognized, report an error
         default:
             Lox::error(m_line, std::string("Unexpected character: ") + ch);
