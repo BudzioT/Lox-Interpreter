@@ -2,9 +2,17 @@
 
 
 Token::Token(TokenType type, const std::string &lexeme,
-    const literalType& literal, int line) : m_type(type), m_lexeme(lexeme), m_literal(literal),
+    literalType literal, int line) : m_type(type), m_lexeme(lexeme), m_literal(literal),
     m_line(line)
 { }
+
+
+/*
+Token::Token(TokenType type, const std::string &lexeme,
+             const std::string &literal, int line) : m_type(type), m_lexeme(lexeme),
+             m_literal(literal), m_line(line)
+{ }
+ */
 
 // Create string from the token
 std::string Token::toString() const {

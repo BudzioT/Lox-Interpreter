@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.28.1)
 project(Lox)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -9,5 +9,6 @@ add_executable(Lox Source/main.cpp
         Source/Headers/TokenType.h
         Source/Token.cpp
         Source/Headers/Token.h
-        Scanner.cpp
-        Scanner.h)
+        Source/Scanner.cpp
+        Source/Headers/Scanner.h
+)

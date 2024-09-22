@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "Source/Headers/Token.h"
+#include "Token.h"
 
 
 // Class to scan source code, extract lexemes
@@ -20,6 +20,7 @@ private:
 
     void addToken(TokenType token);
     void addToken(TokenType token, const literalType& literal);
+    void addToken(TokenType token, void* literal);
 
     char advanceChar();
     char peekChar() const;

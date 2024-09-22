@@ -1,6 +1,6 @@
 #include "Headers/Lox.h"
+#include "Headers/Scanner.h"
 
-#include <process.h>
 #include <cstdio>
 #include <fstream>
 #include <iostream>
@@ -72,7 +72,7 @@ void Lox::run(const std::string& source) {
 
     // Go through each token
     for (const Token& token : tokens) {
-        std::cout << token << std::endl;
+        std::cout << token.toString() << std::endl;
     }
 }
 

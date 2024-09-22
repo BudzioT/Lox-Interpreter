@@ -1,6 +1,6 @@
-#include "Scanner.h"
+#include "Headers/Scanner.h"
 
-#include "Source/Headers/Lox.h"
+#include "Headers/Lox.h"
 
 
 // Create scanner from a source
@@ -18,7 +18,7 @@ std::vector<Token> Scanner::scanTokens() {
     }
 
     // Represent end of file in the tokens
-    m_tokens.push_back(Token(ENDOF, "", NULL, m_line));
+    m_tokens.push_back(Token(ENDOF, "", nullptr, m_line));
     return m_tokens;
 }
 
@@ -88,7 +88,7 @@ void Scanner::scanToken() {
 
         // If character isn't recognized, report an error
         default:
-            Lox::error(m_line, "Unexpected character: " + ch);
+            Lox::error(m_line, std::string("Unexpected character: ") + ch);
             break;
     }
 }
@@ -101,7 +101,13 @@ char Scanner::advanceChar() {
 
 // Add token without literal to a vector with tokens
 void Scanner::addToken(TokenType token) {
-    addToken(token, NULL);
+    addToken(token, nullptr);
+}
+
+// Add token as a null literal
+void Scanner::addToken(TokenType token, void* literal) {
+    std::string text = m_source.substr(m_start, m_current);
+    m_tokens.emplace_back(token, text, literal, m_line);
 }
 
 // Add token with literal to the vector with tokens

@@ -6,13 +6,15 @@
 
 #include "TokenType.h"
 
-using literalType = std::variant<std::string, int, double, float, char, long>;
+
+using literalType = std::variant<std::string, int, double, float, char, long, void*>;
 
 
 // Class that represents single Lox token
 class Token {
 public:
-    Token(TokenType type, const std::string& lexeme, const literalType& literal, int line);
+    Token(TokenType type, const std::string& lexeme, literalType literal, int line);
+    //Token(TokenType type, const std::string& lexeme, void* literal, int line);
 
     std::string toString() const;
 
