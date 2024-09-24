@@ -95,9 +95,14 @@ void Scanner::scanToken() {
             ++m_line;
             break;
 
-        // If character isn't recognized, report an error
+        // If character isn't recognized, handle usual cases
         default:
-            Lox::error(m_line, std::string("Unexpected character: ") + ch);
+            // Take number literal
+            if (std::isdigit(ch))
+                number();
+            // Otherwise report an error
+            else
+                Lox::error(m_line, std::string("Unexpected character: ") + ch);
             break;
     }
 }
@@ -144,4 +149,27 @@ char Scanner::peekChar() const {
     if (sourceEnd())
         return '\0';
     return m_source.at(m_current);
+}
+
+char Scanner::peekNextChar() const {
+    // Check if this isn't the end
+    if (m_current + 1 >= m_source.length())
+        return '\0';
+    return m_source.at(m_current + 1); // Return
+}
+
+void Scanner::number() {
+    // Go through each character token
+    while (std::isdigit(peekChar()))
+        advanceChar();
+
+    // Handle fractional part of the number, if it exists
+    if (peekChar() == '.' && std::isdigit(peekNextChar())) {
+        advanceChar();
+
+        while (std::isdigit(peekChar()))
+            advanceChar();
+    }
+
+    addToken(NUMBER, std::stod(m_source.substr(m_start, m_current)));
 }

@@ -24,7 +24,11 @@ private:
 
     char advanceChar();
     char peekChar() const;
+    char peekNextChar() const;
     bool match(char target);
+
+    void number();
+    void string();
 
 private:
     std::string m_source;
