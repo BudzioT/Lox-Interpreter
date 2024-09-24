@@ -4,8 +4,21 @@
 
 
 // Create scanner from a source
-Scanner::Scanner(const std::string &source) : m_source(source)
-{ }
+Scanner::Scanner(const std::string &source) : m_source(source) {
+    // Store all the possible types
+    std::vector<TokenType> types = { CLASS, AND, OR, IF, ELSE, FUNC, SUPER, THIS, FOR, WHILE,
+        VAR, TRUE, FALSE, PRINT, RETURN, NILL };
+
+    // Store all words corresponding to the types
+    std::vector<std::string> words = { "class", "and", "or", "if", "else",
+    "func", "super", "this", "for", "while", "var", "true", "false",
+    "print", "return", "nill" };
+
+    // Insert all words and associate them with the token types
+    for (int i = 0; i < types.size(); ++i) {
+        m_keywords.emplace(words[i], types[i]);
+    }
+}
 
 // Scan tokens of the source file
 std::vector<Token> Scanner::scanTokens() {
@@ -18,7 +31,7 @@ std::vector<Token> Scanner::scanTokens() {
     }
 
     // Represent end of file in the tokens
-    m_tokens.push_back(Token(ENDOF, "", nullptr, m_line));
+    m_tokens.emplace_back(ENDOF, "", nullptr, m_line);
     return m_tokens;
 }
 
@@ -105,6 +118,9 @@ void Scanner::scanToken() {
             // Take number literal
             if (std::isdigit(ch))
                 number();
+            // Take tokens as identifier if current token is a letter
+            else if (isAlpha(ch))
+                identifier();
             // Otherwise report an error
             else
                 Lox::error(m_line, std::string("Unexpected character: ") + ch);
@@ -147,6 +163,17 @@ bool Scanner::match(char target) {
     // Advance to the next character and inform that it matched
     ++m_current;
     return true;
+}
+
+// Is character a letter
+bool Scanner::isAlpha(const char target) {
+    return (target >= 'a' && target <= 'z') ||
+            (target >= 'A' && target <= 'Z') ||
+            target == '_';
+}
+
+bool Scanner::isAlnum(const char target) {
+    return isAlpha(target) || std::isdigit(target);
 }
 
 // Peek and return next character from the source file
@@ -204,4 +231,13 @@ void Scanner::string() {
     // Return string literal without quote characters
     std::string val = m_source.substr(m_start + 1, m_current - 1);
     addToken(STRING, val);
+}
+
+// Try to interpret characters as identifier
+void Scanner::identifier() {
+    // Look through each character and number
+    while (isAlnum(peekChar()))
+        advanceChar();
+
+    addToken(IDENTIFIER);
 }

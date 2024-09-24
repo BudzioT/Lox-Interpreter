@@ -1,6 +1,7 @@
 #ifndef SCANNER_H
 #define SCANNER_H
 
+#include <map>
 #include <string>
 #include <vector>
 
@@ -27,15 +28,22 @@ private:
     char peekNextChar() const;
     bool match(char target);
 
+    static bool isAlpha(char target) ;
+    static bool isAlnum(char target) ;
+
     void number();
     void string();
+    void identifier();
 
 private:
     std::string m_source;
     std::vector<Token> m_tokens;
+
     int m_start = 0;
     int m_current = 0;
     int m_line = 1;
+
+    std::map<std::string, TokenType> m_keywords;
 };
 
 
