@@ -239,5 +239,10 @@ void Scanner::identifier() {
     while (isAlnum(peekChar()))
         advanceChar();
 
-    addToken(IDENTIFIER);
+    // Get text and see if it's a keyword
+    std::string text = m_source.substr(m_start, m_current);
+    if (!m_keywords.contains(text)) // Add token as an identifier if keyword wasn't found
+        addToken(IDENTIFIER);
+    else // Otherwise add the correct keyword to the tokens
+        addToken(m_keywords.at(text));
 }

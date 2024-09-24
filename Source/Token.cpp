@@ -6,16 +6,12 @@ Token::Token(TokenType type, const std::string &lexeme,
     m_line(line)
 { }
 
-
-/*
-Token::Token(TokenType type, const std::string &lexeme,
-             const std::string &literal, int line) : m_type(type), m_lexeme(lexeme),
-             m_literal(literal), m_line(line)
-{ }
- */
-
 // Create string from the token
 std::string Token::toString() const {
+    // Don't show anything if it's end of file
+    if (m_type == ENDOF)
+        return "";
+
     std::string result = std::to_string(m_type) + ' ' + m_lexeme + ' ';
     // String type
     if (std::holds_alternative<std::string>(m_literal))
@@ -35,6 +31,7 @@ std::string Token::toString() const {
     // Long
     if (std::holds_alternative<long>(m_literal))
         return result + std::to_string(std::get<long>(m_literal));
+
 
     // Otherwise return just result
     return result;
