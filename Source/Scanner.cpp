@@ -95,6 +95,11 @@ void Scanner::scanToken() {
             ++m_line;
             break;
 
+        // Handle the entire string literals
+        case '"':
+            string();
+            break;
+
         // If character isn't recognized, handle usual cases
         default:
             // Take number literal
@@ -151,6 +156,7 @@ char Scanner::peekChar() const {
     return m_source.at(m_current);
 }
 
+// Peek through the character after the next one in the source file and return it
 char Scanner::peekNextChar() const {
     // Check if this isn't the end
     if (m_current + 1 >= m_source.length())
@@ -158,6 +164,7 @@ char Scanner::peekNextChar() const {
     return m_source.at(m_current + 1); // Return
 }
 
+// Handle number tokens, including decimals
 void Scanner::number() {
     // Go through each character token
     while (std::isdigit(peekChar()))
@@ -172,4 +179,29 @@ void Scanner::number() {
     }
 
     addToken(NUMBER, std::stod(m_source.substr(m_start, m_current)));
+}
+
+// Handle string literal tokens
+void Scanner::string() {
+    // Go through the entire string literal
+    while (peekChar() != '"' && !sourceEnd()) {
+        // If newline is encountered, apply it
+        if (peekChar() == '\n')
+            ++m_line;
+
+        advanceChar();
+    }
+
+    // Safeguard against unterminated strings
+    if (sourceEnd()) {
+        Lox::error(m_line, "String literal not ended.");
+        return;
+    }
+
+    // Advance through the closing character
+    advanceChar();
+
+    // Return string literal without quote characters
+    std::string val = m_source.substr(m_start + 1, m_current - 1);
+    addToken(STRING, val);
 }
